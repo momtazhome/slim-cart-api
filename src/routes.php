@@ -54,14 +54,36 @@ $app->post('/cart/{user_id}/remove', function(Request $request, Response $respon
 
 // updating the quantity of an item in the cart
 // PUT "cart/{user_id}/update" item id and new quantity in the body
-$app->put('/cart/{user_id}/update', function(Request $request, Response $response, $args) {
+$app->post('/cart/{user_id}/update', function(Request $request, Response $response, $args) {
+	$user_id = (int)$args['user_id'];
+	if(empty($user_id))
+		return $response->withJson(['error' => 'Invalid request'], 400);
 
+	$request_body = $request->getParsedBody();
+	$item_id = isset($request_body['item_id']) ? (int)$request_body['item_id'] : null;
+	$item_quanity = !empty($request_body['quantity']) ? (int)$request_body['quantity'] : null;
+	$item = new ItemModel($this->db);
+	$item->init($item_id);
+	if(empty($item->getDetails()) || empty($item_quanity))
+		return $response->withJson(['error' => 'Invalid request'], 400);
+
+	$cart = new CartModel($this->db);
+	$status = $cart->modifyCart($user_id, $item_id, $item_quanity);
+
+	return $status ? $response->withJson(['success' => true]) : $response->withJson(['error' => "something went wrong"], 500);
 });
 
 // getting all the items in the cart
 // GET "cart/{user_id}/get/items"
 $app->get('/cart/{user_id}/get/items', function(Request $request, Response $response, $args) {
+	$user_id = (int)$args['user_id'];
+	if(empty($user_id))
+		return $response->withJson(['error' => 'Invalid request'], 400);
 
+	$cart = new CartModel($this->db);
+	$items = $cart->getItems($user_id, 10);
+
+	return $response->withJson(['items' => $items]);
 });
 
 // getting user information - billing address from the cart

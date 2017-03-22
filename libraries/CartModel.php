@@ -31,6 +31,40 @@ class CartModel extends Model {
     return true;
   }
 
+  public function modifyCart($user_id, $item_id, $item_quantity) {
+    $user_id = (int)$user_id;
+    $item_id = (int)$item_id;
+    $item_quantity = (int)$item_quantity;
+
+    if($this->presentInCart($user_id, $item_id)) {
+      $update_statement = $this->db->prepare("update cart set quantity = :quantity where user_id = :user_id and item_id = :item_id");
+      $update_result = $update_statement->execute(['quantity' => $item_quantity, 'user_id' => $user_id, 'item_id' => $item_id]);
+      return $update_result ? true : false;
+    }
+
+    return true;
+  }
+
+  public function getItems($user_id, $items, $offset = null) {
+    $user_id = (int)$user_id;
+    $items = (int)$items;
+
+    $statement = $this->db->prepare("select item_id, quantity from cart where user_id = :user_id limit :items");
+    $statement->bindValue(':items', $items, PDO::PARAM_INT);
+    $statement->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+    $result = $statement->execute();
+
+    $items = [];
+    while($row = $statement->fetch()) {
+      $item_id = $row['item_id'];
+      $item = new ItemModel($this->db);
+      $item->init($item_id);
+      $items[] = ['item' => $item->getDetails(), 'quantity' => $row['quantity']];
+    }
+
+    return $items ;
+  }
+
   /**
   * Checks if an item is already present in a user's cart
   */
