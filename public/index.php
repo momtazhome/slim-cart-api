@@ -11,7 +11,13 @@ if (PHP_SAPI == 'cli-server') {
 
 require __DIR__ . '/../vendor/autoload.php';
 spl_autoload_register(function ($classname) {
-    require ("../libraries/" . $classname . ".php");
+    $possible_paths  = ["../libraries/", "../controllers/"];
+    foreach($possible_paths as $path) {
+      if(file_exists($path . $classname . ".php")) {
+        require ($path . $classname . ".php");
+        break;
+      }
+    }
 });
 
 session_start();
