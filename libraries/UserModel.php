@@ -9,6 +9,16 @@ class UserModel extends Model {
 		$this->user_id = $user_id;
 	}
 
+	public function initWithToken($token) {
+        $statement = $this->db->prepare("select id from users where token = :token");
+        $result = $statement->execute(['token' => $token]);
+        $user_details = $result ? $statement->fetch() : [];
+
+        if(!empty($user_details['id'])) {
+            $this->user_id = $user_details['id'];
+        }
+    }
+
 	public function getDetails() {
 		if(!$this->user_details) {
 			$user_id = (int)$this->user_id;
