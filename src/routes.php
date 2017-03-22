@@ -5,6 +5,12 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 // Routes
 
+$app->get('/test', function(Request $request, Response $response, $args) {
+	$res = $this->db->query("select * from users");
+	// $res = $st->execute();
+	var_dump($res->fetch()); exit;
+});
+
 // add an item to the cart
 // POST "/cart/{user_id}/add" and POST data as the item details
 $app->post('/cart/{user_id}/add', function(Request $request, Response $response, $args) {
@@ -38,6 +44,6 @@ $app->get('/cart/{user_id}/get/user', function(Request $request, Response $respo
     $user->init($user_id);
 
     $user_details = $user->getUserById();
-	$response = $response->withJson($user_details);
-	return $response;
+		$response = $response->withJson($user_details);
+		return $response;
 });
