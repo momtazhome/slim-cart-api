@@ -18,8 +18,8 @@ return [
 
         'db' => [
             'host' => 'localhost',
-            'user' => 'root',
-            'pass' => '',
+            'user' => 'cart',
+            'pass' => 'cart',
             'dbname' => 'cart'
         ]
     ],
