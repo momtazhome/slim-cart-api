@@ -23,7 +23,6 @@ $app->post('/cart/{user_id}/add', function(Request $request, Response $response,
 	$item_quanity = isset($request_body['quantity']) ? (int)$request_body['quantity'] : 1;
 	$item = new ItemModel($this->db);
 	$item->init($item_id);
-
 	if(empty($item->getDetails()))
 		return $response->withJson(['error' => 'Invalid request'], 400);
 
@@ -35,8 +34,22 @@ $app->post('/cart/{user_id}/add', function(Request $request, Response $response,
 
 // removing the item from the cart
 // DELETE "/cart/{user_id}/remove" item id in the body
-$app->delete('/cart/{user_id}/remove', function(Request $request, Response $response, $args) {
+$app->post('/cart/{user_id}/remove', function(Request $request, Response $response, $args) {
+	$user_id = (int)$args['user_id'];
+	if(empty($user_id))
+		return $response->withJson(['error' => 'Invalid request'], 400);
 
+	$request_body = $request->getParsedBody();
+	$item_id = isset($request_body['item_id']) ? $request_body['item_id'] : null;
+	$item = new ItemModel($this->db);
+	$item->init($item_id);
+	if(empty($item->getDetails()))
+		return $response->withJson(['error' => 'Invalid request'], 400);
+
+	$cart = new CartModel($this->db);
+	$status = $cart->remvoveFromCart($user_id, $item_id);
+
+	return $status ? $response->withJson(['success' => true]) : $response->withJson(['error' => "something went wrong"], 500);
 });
 
 // updating the quantity of an item in the cart
