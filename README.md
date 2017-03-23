@@ -18,4 +18,5 @@ The list of apis and their controllers can be found from the file : src/routes.p
 
 1. Run composer install 
 2. Point the web server root to the public directory of this repository.
-3. Migrate the database.
+3. Migrate the database - create a database, say "cart" with a user having the right priveleges and update the same in src/settings.php
+4. Run the phinx db migration and seeder using commands - >> vendor/bin/phinx migrate -e development ; vendor/bin/phinx migrate seed:run
