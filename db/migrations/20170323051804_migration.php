@@ -53,6 +53,7 @@ class Migration extends AbstractMigration
             $cart_table->addColumn('user_id', 'integer')
                 ->addColumn('item_id', 'integer')
                 ->addColumn('quantity', 'integer')
+                ->addColumn('created_at', 'timestamp', ['default' => 'CURRENT_TIMESTAMP'])
                 ->save();
         }
     }
