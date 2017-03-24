@@ -49,9 +49,9 @@ class CartController{
             return $response->withJson(['error' => 'Invalid request'], 400);
 
         $cart = new CartModel($this->db);
-        $status = $cart->modifyCart($user_id, $item_id, $item_quanity);
+        list($status, $error) = $cart->modifyCart($user_id, $item_id, $item_quanity);
 
-        return $status ? $response->withJson(['success' => true]) : $response->withJson(['error' => "something went wrong"], 500);
+        return $status ? $response->withJson(['success' => true]) : $response->withJson(['error' => $error ?: "something went wrong"], 500);
     }
 
     public function removeFromCart(Request $request, Response $response, $args) {
@@ -67,9 +67,9 @@ class CartController{
             return $response->withJson(['error' => 'Invalid request'], 400);
 
         $cart = new CartModel($this->db);
-        $status = $cart->remvoveFromCart($user_id, $item_id);
+        list($status, $error) = $cart->remvoveFromCart($user_id, $item_id);
 
-        return $status ? $response->withJson(['success' => true]) : $response->withJson(['error' => "something went wrong"], 500);
+        return $status ? $response->withJson(['success' => true]) : $response->withJson(['error' => $error ?: "something went wrong"], 500);
     }
 
     public function addToCart(Request $request, Response $response, $args) {
@@ -86,8 +86,8 @@ class CartController{
             return $response->withJson(['error' => 'Invalid request'], 400);
 
         $cart = new CartModel($this->db);
-        $status = $cart->addToCart($user_id, $item_id, $item_quanity);
+        list($status, $error) = $cart->addToCart($user_id, $item_id, $item_quanity);
 
-        return $status ? $response->withJson(['success' => true]) : $response->withJson(['error' => "something went wrong"], 500);
+        return $status ? $response->withJson(['success' => true]) : $response->withJson(['error' => $error ?: "something went wrong"], 500);
     }
 }

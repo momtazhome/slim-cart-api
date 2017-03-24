@@ -7,7 +7,7 @@ use Psr\Http\Message\ResponseInterface as Response;
 
 // for authentication
 $app->add(function(Request $request, Response $response, $next) {
-    $token = $request->getHeader('HTTP_AUTHORIZATION');
+    $token = $request->getHeader('HTTP_X_TOKEN');
     if(!empty($token))
         $token = $token[0];
     $user = new UserModel($this->get('db'));

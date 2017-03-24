@@ -12,10 +12,12 @@ class CartModel extends Model {
     if(!$this->presentInCart($user_id, $item_id)) {
       $insert_statement = $this->db->prepare("insert into cart (`user_id`, `item_id`, `quantity`) values (:user_id, :item_id, :quantity)");
       $insert_result = $insert_statement->execute(['user_id' => $user_id, 'item_id' => $item_id, 'quantity' => $item_quantity]);
-      return $insert_result ? true : false;
-    }
+      return $insert_result ? [true, ""] : [false, ""];
+    } else {
+			return [false, "This item is already in the cart"];
+		}
 
-    return true;
+    return [true, ""];
 	}
 
   public function remvoveFromCart($user_id, $item_id) {
@@ -25,10 +27,12 @@ class CartModel extends Model {
     if($this->presentInCart($user_id, $item_id)) {
       $delete_statement = $this->db->prepare("delete from cart where user_id = :user_id and item_id = :item_id");
       $delete_result = $delete_statement->execute(['user_id' => $user_id, 'item_id' => $item_id]);
-      return $delete_result ? true : false;
-    }
+      return $delete_result ? [true, ''] : [false, ''];
+    } else {
+			return [false, 'This item is not in the cart'];
+		}
 
-    return true;
+    return [true, ''];
   }
 
   public function modifyCart($user_id, $item_id, $item_quantity) {
@@ -39,10 +43,12 @@ class CartModel extends Model {
     if($this->presentInCart($user_id, $item_id)) {
       $update_statement = $this->db->prepare("update cart set quantity = :quantity where user_id = :user_id and item_id = :item_id");
       $update_result = $update_statement->execute(['quantity' => $item_quantity, 'user_id' => $user_id, 'item_id' => $item_id]);
-      return $update_result ? true : false;
-    }
+      return $update_result ? [true, ""] : [false, ""];
+    } else {
+			return [false, "This item is not in the cart"];
+		}
 
-    return true;
+    return [true, ""];
   }
 
   public function getItems($user_id, $items, $offset = null) {
