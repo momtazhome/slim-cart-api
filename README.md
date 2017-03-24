@@ -3,6 +3,9 @@
 Design
 
 1. Cart is specific to a user. So any cart can be uniqely identified by the user id.
+2. Uses psr4 autoloading to autoload controller and libraries via composer.
+3. Token based Authentication 
+4. Url based versioning.
 
 There are five apis:
 
@@ -14,7 +17,7 @@ There are five apis:
 
 The list of apis and their controllers can be found from the file : src/routes.php
 
-## Install the Application
+## Installing
 
 1. Run composer install
 2. Point the web server root to the public directory of this repository.
@@ -23,4 +26,5 @@ The list of apis and their controllers can be found from the file : src/routes.p
 
 ## Running
 
-1. To test the api, the following postman collection can be used : https://www.getpostman.com/collections/fb2d39dc3e389eb0973a It has the auth headers and sample test data based on the above migrated database.
+1. To test the api, the following postman collection can be imported and used : https://www.getpostman.com/collections/fb2d39dc3e389eb0973a. It has the auth headers and sample test data based on the above migrated database.
+2. Also import the postman environment at root : postman_environment.json and edit the options according to the local setup. This has to be used with the above collection.

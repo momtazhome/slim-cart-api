@@ -1,4 +1,5 @@
 <?php
+namespace App\Lib;
 
 
 class CartModel extends Model
@@ -59,8 +60,8 @@ class CartModel extends Model
             $offset_statement = " and created_at < :offset ";
         }
         $statement = $this->db->prepare("select item_id, quantity, created_at from cart where user_id = :user_id  " . $offset_statement . " order by created_at desc limit :items");
-        $statement->bindValue(':items', $items, PDO::PARAM_INT);
-        $statement->bindValue(':user_id', $user_id, PDO::PARAM_INT);
+        $statement->bindValue(':items', $items, \PDO::PARAM_INT);
+        $statement->bindValue(':user_id', $user_id, \PDO::PARAM_INT);
         if (!empty($offset)) {
             $statement->bindValue(':offset', $offset);
         }

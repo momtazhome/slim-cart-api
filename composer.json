@@ -23,7 +23,9 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests/",
+            "App\\Lib\\": "libraries/",
+            "App\\Controller\\": "controllers/"
         }
     },
 	"scripts": {

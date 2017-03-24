@@ -1,6 +1,7 @@
 <?php
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
+use App\Lib\UserModel;
 // Application middleware
 
 // e.g: $app->add(new \Slim\Csrf\Guard);

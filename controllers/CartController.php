@@ -1,7 +1,12 @@
 <?php
+namespace App\Controller;
+
 use Psr\Http\Message\ServerRequestInterface as Request;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Container\ContainerInterface as ContainerInterface;
+use App\Lib\UserModel;
+use App\Lib\ItemModel;
+use App\Lib\CartModel;
 
 class CartController{
 
