@@ -25,4 +25,13 @@ $app->group('/v1', function() use ($app) {
     $app->get('/cart/{user_id}/get/user', 'App\Controller\CartController:getUser');
 
 
+})->add($auth_middleware);
+
+// fallback for home page
+$app->get('/[{name}]', function ($request, $response, $args) {
+    // Sample log message
+    $this->logger->info("Slim-Skeleton '/' route");
+
+    // Render index view
+    return $this->renderer->render($response, 'index.phtml', $args);
 });

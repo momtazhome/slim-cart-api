@@ -7,7 +7,7 @@ use App\Lib\UserModel;
 // e.g: $app->add(new \Slim\Csrf\Guard);
 
 // for authentication
-$app->add(function(Request $request, Response $response, $next) {
+$auth_middleware = function(Request $request, Response $response, $next) {
     $token = $request->getHeader('HTTP_X_TOKEN');
     if(!empty($token))
         $token = $token[0];
@@ -20,4 +20,4 @@ $app->add(function(Request $request, Response $response, $next) {
     $response = $next($request, $response);
 
     return $response;
-});
+};
